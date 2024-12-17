@@ -1,6 +1,6 @@
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Counter from './components/Counter'
+import CityList from './feature/CityList'
 
 const queryClient = new QueryClient()
 
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Counter />
+        <CityList />
     </QueryClientProvider>
   )
 }

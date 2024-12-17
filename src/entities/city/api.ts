@@ -1,4 +1,5 @@
 import * as ENDPOINTS from './endpoints'
+import { citiesMock } from './mock';
 import { City, CityCreate, CityDeleted, CityPosted } from './types';
 
 // GET
@@ -8,7 +9,7 @@ export const fetchGetCity = async (): Promise<City[]> => {
       throw new Error('Failed to fetch cities');
     }
   
-    return response.json();
+    return citiesMock
 };
 
 // POST
