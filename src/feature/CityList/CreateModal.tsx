@@ -7,16 +7,23 @@ import { z } from "zod";
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, Form } from "../../shared/shadcn-ui/form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
+import { City } from "../../entities/city/types";
 
 
-const CreateModal = () => {
+interface CreateModalProps {
+    city?: City,
+    open: boolean,
+    onChangeOpen: () => void
+}
+const CreateModal = ({open, onChangeOpen, city} : CreateModalProps) => {
+    const editMode = !!city
 
     const cityCreateForm = useForm<z.infer<typeof cityCreateSchema>>({
         resolver: zodResolver(cityCreateSchema),
-        defaultValues: {
-            city_name: "",
+        values: {
+            city_name: editMode? city.city_name : "",
             city_is_region: false,
-            city_code: "",
+            city_code: editMode? city.city_code : "",
         },
     })
 
@@ -24,9 +31,14 @@ const CreateModal = () => {
         console.log(values)
     }
 
+    const onChangeOpenModalHandler = () => {
+        if (open) cityCreateForm.reset();
+        onChangeOpen();
+    }
+
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onChangeOpenModalHandler}>
         <DialogTrigger asChild>
             <Button className="self-end" variant="outline" size="icon">
                 <Plus />
@@ -35,7 +47,7 @@ const CreateModal = () => {
 
         <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Новый город</DialogTitle>
+                <DialogTitle>{editMode ? 'Редактировать город' : 'Новый город'}</DialogTitle>
             </DialogHeader>
             
             <Form {...cityCreateForm}>
@@ -54,9 +66,23 @@ const CreateModal = () => {
                         )}
                     />
 
+                    <FormField
+                        control={cityCreateForm.control}
+                        name="city_code"
+                        render={({field}) => (
+                            <FormItem>
+                                <FormLabel>Код города</FormLabel>
+                                <FormControl>
+                                    <Input {...field} disabled={editMode}/>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+
                     
                     <DialogFooter>
-                        <Button type="submit">ДОБАВИТЬ ГОРОД</Button>
+                        <Button type="submit">{editMode ? 'ИЗМЕНИТЬ ГОРОД' : 'ДОБАВИТЬ ГОРОД'}</Button>
                     </DialogFooter>
                 </form>
             </Form>

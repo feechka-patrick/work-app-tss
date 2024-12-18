@@ -1,27 +1,41 @@
-import { Plus } from "lucide-react";
 import { useGetCity } from "../../entities/city/query-hooks";
-import { Button } from "../../shared/shadcn-ui/Button";
+import { City } from "../../entities/city/types";
 import CardListItem from "../../shared/ui/CardListItem";
 import ListWrapper from "../../shared/ui/ListWrapper";
 import CreateModal from "./CreateModal";
+import { useState } from "react";
 
 
 const CityList = () => {
     const { data } = useGetCity();
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [editCity, setEditCity] = useState<City | undefined>(undefined);
+
+
+    const onChangeOpenModalHandler = () => {
+        if (isEditModalOpen) setEditCity(undefined)
+        setIsEditModalOpen((open) => !open);
+    }
+
+    const onClickEditCityHandler = (city: City) => {
+        setEditCity(city);
+        onChangeOpenModalHandler()
+    }
+
   return (
     <ListWrapper>
 
-        {/* <Button className="self-end" variant="outline" size="icon">
-              <Plus />
-        </Button> */}
-
-        <CreateModal />
+        <CreateModal 
+            open={isEditModalOpen}
+            onChangeOpen={onChangeOpenModalHandler}
+            city={editCity}/>
         
         {
             data?.map((city) => 
                 <CardListItem
                     key={city.city_name}
                     title={city.city_name}
+                    onEdit={() => onClickEditCityHandler(city)}
                 />
             )
         }

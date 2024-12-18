@@ -9,19 +9,21 @@ interface CardListItemProps {
   prefixIcon?: string;
 
   onDelete?: () => void;
+  onEdit?: () => void;
 }
 
 const CardListItem: FC<CardListItemProps> = ({
   title,
   description,
-  onDelete
+  onDelete,
+  onEdit
 }) => {
   return (
     <Card className="py-1 px-4 flex gap-2">
       <div className="w-full content-center">{title}</div>
       <div className="content-center text-xs">{description}</div>
       
-      <Button onClick={onDelete} variant="ghost" size="icon">
+      <Button onClick={onEdit} variant="ghost" size="icon">
         <Pencil />
       </Button>
 
