@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { X } from "lucide-react"
+import { Trash, Pencil } from "lucide-react"
 import { Card } from "../../shadcn-ui/Card";
 import { Button } from "../../shadcn-ui/Button";
  
@@ -22,7 +22,11 @@ const CardListItem: FC<CardListItemProps> = ({
       <div className="content-center text-xs">{description}</div>
       
       <Button onClick={onDelete} variant="ghost" size="icon">
-        <X />
+        <Pencil />
+      </Button>
+
+      <Button onClick={onDelete} variant="ghost" size="icon">
+        <Trash />
       </Button>
     </Card>
   );

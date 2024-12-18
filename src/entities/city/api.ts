@@ -9,6 +9,7 @@ export const fetchGetCity = async (): Promise<City[]> => {
       throw new Error('Failed to fetch cities');
     }
   
+    // return response.json();
     return citiesMock
 };
 

@@ -1,23 +1,31 @@
-import { useGetCity } from "../../entities/city/model";
+import { Plus } from "lucide-react";
+import { useGetCity } from "../../entities/city/query-hooks";
+import { Button } from "../../shared/shadcn-ui/Button";
 import CardListItem from "../../shared/ui/CardListItem";
+import ListWrapper from "../../shared/ui/ListWrapper";
+import CreateModal from "./CreateModal";
 
 
 const CityList = () => {
     const { data } = useGetCity();
   return (
-    <div className="flex justify-center w-full">
-        <div className="flex flex-col gap-2 w-[90%] md:w-1/2">
-            {
-                data?.map((city) => 
-                    <CardListItem
-                        key={city.city_name}
-                        title={city.city_name}
-                    />
-                )
-            }
+    <ListWrapper>
 
-        </div>
-    </div>
+        {/* <Button className="self-end" variant="outline" size="icon">
+              <Plus />
+        </Button> */}
+
+        <CreateModal />
+        
+        {
+            data?.map((city) => 
+                <CardListItem
+                    key={city.city_name}
+                    title={city.city_name}
+                />
+            )
+        }
+    </ListWrapper>
   );
 };
 
