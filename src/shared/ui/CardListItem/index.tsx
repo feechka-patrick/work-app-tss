@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Trash, Pencil } from "lucide-react"
 import { Card } from "../../shadcn-ui/Card";
 import { Button } from "../../shadcn-ui/Button";
+import DeleteAlert from "./DeleteAlert";
  
 interface CardListItemProps {
   title: string;
@@ -18,6 +19,8 @@ const CardListItem: FC<CardListItemProps> = ({
   onDelete,
   onEdit
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   return (
     <Card className="py-1 px-4 flex gap-2">
       <div className="w-full content-center">{title}</div>
@@ -27,9 +30,15 @@ const CardListItem: FC<CardListItemProps> = ({
         <Pencil />
       </Button>
 
-      <Button onClick={onDelete} variant="ghost" size="icon">
+      <Button onClick={() => setIsModalOpen(true)} variant="ghost" size="icon">
         <Trash />
       </Button>
+
+      <DeleteAlert 
+          open={isModalOpen} 
+          onOpenChange={() => setIsModalOpen((open) => !open)}
+          onDelete={() => onDelete}
+      />
     </Card>
   );
 };
